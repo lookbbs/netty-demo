@@ -1,8 +1,8 @@
 package com.ydf.netty;
 
-import com.ydf.netty.channel.HttpRequestHandler;
-import com.ydf.netty.channel.PongWebSocketFrameHandler;
-import com.ydf.netty.channel.TextWebSocketFrameHandler;
+import com.ydf.netty.channel.handler.HttpRequestHandler;
+import com.ydf.netty.channel.handler.PongWebSocketFrameHandler;
+import com.ydf.netty.channel.handler.TextWebSocketFrameHandler;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.group.ChannelGroup;

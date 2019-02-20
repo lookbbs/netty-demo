@@ -1,8 +1,7 @@
 package com.ydf.netty;
 
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -21,7 +20,6 @@ import java.net.InetSocketAddress;
  * @date 2019/2/15
  */
 @Slf4j
-@Component
 public class NettyServer {
 
     /**
@@ -51,7 +49,7 @@ public class NettyServer {
             bootstrap.group(boss, worker)
                     .channel(NioServerSocketChannel.class)
                     .localAddress(new InetSocketAddress(nettyProperties.getPort()))
-                    .childHandler(new NettyServerInitializer(channelGroup,
+                    .childHandler(createInitializer(channelGroup,
                             nettyProperties.getReaderIdleTimeSeconds(),
                             nettyProperties.getWriterIdleTimeSeconds(),
                             nettyProperties.getAllIdleTimeSeconds()));
@@ -62,15 +60,17 @@ public class NettyServer {
             future.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             e.printStackTrace();
-        } finally {
-            if (null != boss && !boss.isShutdown()) {
-                boss.shutdownGracefully();
-            }
-            if (null != worker && !worker.isShutdown()) {
-                worker.shutdownGracefully();
-            }
-            log.info(">>> netty 关闭成功！");
         }
+    }
+
+    protected ChannelInitializer<Channel> createInitializer(ChannelGroup channelGroup,
+                                                            Integer readerIdleTimeSeconds,
+                                                            Integer writerIdleTimeSeconds,
+                                                            Integer allIdleTimeSeconds) {
+        return new NettyServerInitializer(channelGroup,
+                readerIdleTimeSeconds,
+                writerIdleTimeSeconds,
+                allIdleTimeSeconds);
     }
 
     @PreDestroy

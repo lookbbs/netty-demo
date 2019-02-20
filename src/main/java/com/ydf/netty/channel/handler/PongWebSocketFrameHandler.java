@@ -1,4 +1,4 @@
-package com.ydf.netty.channel;
+package com.ydf.netty.channel.handler;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
