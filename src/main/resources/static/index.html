@@ -40,11 +40,12 @@
 
     function send(message) {
         var i = 1;
+        var length = 10000;
         if (!window.WebSocket) {
             return;
         }
         if (socket.readyState == WebSocket.OPEN) {
-            while (i < 1000) {
+            while (i <= length) {
                 setInterval(socket.send(message+i), 500);
                 i++;
             }
@@ -53,7 +54,6 @@
         }
 
     }
-
 </script>
 <body>
 <form onSubmit="return false;">
